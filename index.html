@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Number</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: aqua;
+            /*background-image: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1ZMYWDI5Qb2zZOxFYI7cB08hEqLVzoLLCvw&usqp=CAU";*/
+        }
+        #container {
+            margin: 100px auto;
+            width: 300px;
+        }
+        #message {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>Random Number</h1>
+        <p>Guess a number between 1 and 100:</p>
+        <input type="text" id="guessField">
+        <input type="submit" value="Submit" id="guessSubmit">
+        <p id="message"></p>
+        <button onclick="resetGame()">Reset Game</button>
+    </div>
+
+    <script>
+        
+        const randomNumber = Math.floor(Math.random() * 100) + 1;
+        console.log(randomNumber);
+
+    
+        let guessCount = 0;
+        let guess;
+
+    
+        function checkGuess() {
+            guess = parseInt(document.getElementById('guessField').value);
+
+            if (isNaN(guess) || guess < 1 || guess > 100) {
+                setMessage('Please enter a valid number between 1 and 100.');
+                return;
+            }
+
+            guessCount++;
+
+            if (guess === randomNumber) {
+                setMessage(`Congratulations! You guessed the correct number ${randomNumber} in ${guessCount} tries!`);
+                endGame();
+            } else {
+                let message = guess < randomNumber ? 'Too low! Try again.' : 'Too high! Try again.';
+                setMessage(message);
+            }
+
+            document.getElementById('guessField').value = '';
+        }
+
+    
+        function setMessage(msg) {
+            document.getElementById('message').textContent = msg;
+        }
+
+        
+        function endGame() {
+            document.getElementById('guessField').disabled = true;
+            document.getElementById('guessSubmit').disabled = true;
+        }
+
+        
+        function resetGame() {
+            guessCount = 0;
+            setMessage('');
+            document.getElementById('guessField').value = '';
+            document.getElementById('guessField').disabled = false;
+            document.getElementById('guessSubmit').disabled = false;
+            
+              randomNumber = Math.floor(Math.random() * 100) + 1;
+        }
+
+        document.getElementById('guessSubmit').addEventListener('click', checkGuess);
+    </script>
+</body>
+</html>
